@@ -1,8 +1,13 @@
 {
   "name": "notes_app_server",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.8.x",
+    "yarn": "1.x.x"
+  },
   "description": "Node.js backend for notes_app React client",
   "main": "index.js",
+  "private": true,
   "scripts": {},
   "author": "Joshua Cole",
   "license": "ISC"
