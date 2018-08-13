@@ -1,0 +1,12 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "node": true
+  },
+  "extends": "airbnb-base",
+  "settings": {
+    "import/resolver": {
+      "babel-module-alias": {}
+    }
+  }
+}
