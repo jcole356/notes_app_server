@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import app from '../app';
-import { sequelize } from '../models';
+
+import models, { sequelize } from '../models';
 
 /**
  * Module dependencies.
@@ -8,6 +8,9 @@ import { sequelize } from '../models';
 
 const http = require('http');
 const debug = require('debug')('server:server');
+// const models = require('../models');
+// const { sequelize } = require('../models');
+const app = require('../app');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -87,7 +90,22 @@ function onListening() {
  * Listen on provided port, on all network interfaces.
  * Wait until sequelize has synced before listening
  */
-sequelize.sync().then(() => {
+const eraseDatabaseOnSync = true;
+
+const createUsersWithMessages = async () => {
+  await models.User.create(
+    {
+      email: 'test@test.com',
+      passwordDigest: 'password',
+      username: 'testy',
+    },
+  );
+};
+
+sequelize.sync({ force: eraseDatabaseOnSync }).then(() => {
+  if (eraseDatabaseOnSync) {
+    createUsersWithMessages();
+  }
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
