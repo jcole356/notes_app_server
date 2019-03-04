@@ -11,8 +11,11 @@ router.get('/', (_req, res) => {
       username: 'testy',
     },
   });
-  user.then((u) => { console.log('user', u); });
-  res.send('respond with a resource');
+  // TODO: this should be a list of users
+  user.then((u) => {
+    console.log('user', u);
+    res.send(`The user's name is ${u[0].dataValues.username}`);
+  });
 });
 
 module.exports = router;
