@@ -92,6 +92,7 @@ function onListening() {
  */
 const eraseDatabaseOnSync = true;
 
+// TODO: there are no messages yet
 const createUsersWithMessages = async () => {
   await models.User.create(
     {
@@ -102,6 +103,7 @@ const createUsersWithMessages = async () => {
   );
 };
 
+// TODO: still erasing database on sync
 sequelize.sync({ force: eraseDatabaseOnSync }).then(() => {
   if (eraseDatabaseOnSync) {
     createUsersWithMessages();
