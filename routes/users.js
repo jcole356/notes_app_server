@@ -6,15 +6,12 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get('/', (_req, res) => {
-  const user = models.User.findAll({
-    where: {
-      username: 'testy',
-    },
-  });
+  const users = models.User.findAll();
   // TODO: this should be a list of users
-  user.then((u) => {
-    console.log('user', u);
-    res.send(`The user's name is ${u[0].dataValues.username}`);
+  users.then((userList) => {
+    console.log('userList', userList);
+    const userListString = userList.map(user => user.dataValues.username).join(', ');
+    res.send(`The users name's are ${userListString}`);
   });
 });
 

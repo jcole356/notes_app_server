@@ -93,12 +93,20 @@ function onListening() {
 const eraseDatabaseOnSync = true;
 
 // TODO: there are no messages yet
+// Creates 2 users
 const createUsersWithMessages = async () => {
   await models.User.create(
     {
       email: 'test@test.com',
       passwordDigest: 'password',
       username: 'testy',
+    },
+  );
+  await models.User.create(
+    {
+      email: 'test2@test.com',
+      passwordDigest: 'password',
+      username: 'testy2',
     },
   );
 };
