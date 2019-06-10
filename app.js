@@ -2,9 +2,78 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const passport = require('passport');
+const { Strategy } = require('passport-local');
 
+
+const models = require('./models');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+
+// Demo code https://github.com/passport/express-4.x-local-example/blob/master/server.js
+// TODO: use bcrypt to hash and salt the password
+
+// Configure the local strategy for use by Passport.
+//
+// The local strategy require a `verify` function which receives the credentials
+// (`username` and `password`) submitted by the user.  The function must verify
+// that the password is correct and then invoke `cb` with a user object, which
+// will be set at `req.user` in route handlers after authentication.
+passport.use(new Strategy(
+  (username, password, cb) => {
+    const User = models.sequelize.models.user;
+    const users = User.findAll({
+      where: {
+        username,
+      },
+    });
+    users.then((user) => {
+      // TODO: error handling
+      // if (err) {
+      //   return cb(err);
+      // }
+      if (!user) {
+        console.log('no user');
+        return cb(null, false);
+      }
+      if (user[0].dataValues.passwordDigest !== password) {
+        console.log('password wrong');
+        return cb(null, false);
+      }
+      console.log('successfully authenticated');
+      return cb(null, user[0]);
+    });
+  },
+));
+
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+
+// TODO: this is not the way the user comes back
+passport.serializeUser((user, cb) => {
+  console.log('serializeUser');
+  cb(null, user.id);
+});
+
+// TODO: this is not the way the user comes back
+// TODO: error handling
+passport.deserializeUser((id, cb) => {
+  console.log('deserializeUser');
+  const users = models.User.findAll({ where: { id } });
+
+  users.then((user) => {
+    // if (err) {
+    //   return cb(err);
+    // }
+    cb(null, user);
+    return null;
+  });
+});
 
 const app = express();
 
@@ -14,7 +83,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', indexRouter);
+
+// TODO: auth router
+app.get('/login',
+  (_req, res) => {
+    res.send('logging in');
+  });
+
+// TODO: need a view or button or something to trigger this
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  (_req, res) => {
+    res.send('yay!');
+    res.redirect('/');
+  });
+
 app.use('/users', usersRouter);
 
 module.exports = app;
