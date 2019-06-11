@@ -77,6 +77,11 @@ passport.deserializeUser((id, cb) => {
 
 const app = express();
 
+// Configure view engine to render EJS templates.
+// eslint-disable-next-line
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -93,14 +98,12 @@ app.use('/', indexRouter);
 // TODO: auth router
 app.get('/login',
   (_req, res) => {
-    res.send('logging in');
+    res.render('login');
   });
 
-// TODO: need a view or button or something to trigger this
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   (_req, res) => {
-    res.send('yay!');
     res.redirect('/');
   });
 
