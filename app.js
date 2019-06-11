@@ -78,6 +78,7 @@ passport.deserializeUser((id, cb) => {
 const app = express();
 
 // Configure view engine to render EJS templates.
+// TODO: use path.join
 // eslint-disable-next-line
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
