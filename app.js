@@ -1,12 +1,13 @@
+import models from './models';
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport');
 const { Strategy } = require('passport-local');
+const session = require('express-session');
 
-
-const models = require('./models');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
@@ -21,7 +22,7 @@ const usersRouter = require('./routes/users');
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
   (username, password, cb) => {
-    const User = models.sequelize.models.user;
+    const { User } = models;
     const users = User.findAll({
       where: {
         username,
@@ -32,7 +33,7 @@ passport.use(new Strategy(
       // if (err) {
       //   return cb(err);
       // }
-      if (!user) {
+      if (!user || user.length < 1) {
         console.log('no user');
         return cb(null, false);
       }
@@ -54,23 +55,21 @@ passport.use(new Strategy(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 
-// TODO: this is not the way the user comes back
 passport.serializeUser((user, cb) => {
   console.log('serializeUser');
   cb(null, user.id);
 });
 
-// TODO: this is not the way the user comes back
 // TODO: error handling
 passport.deserializeUser((id, cb) => {
-  console.log('deserializeUser');
+  console.log('deserializeUser', id);
   const users = models.User.findAll({ where: { id } });
 
   users.then((user) => {
     // if (err) {
     //   return cb(err);
     // }
-    cb(null, user);
+    cb(null, user[0]);
     return null;
   });
 });
@@ -88,25 +87,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ secret: 'cats suck' }));
 
-// Initialize Passport and restore authentication state, if any, from the
-// session.
+// Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter);
 
 // TODO: auth router
-app.get('/login',
+app.get(
+  '/login',
   (_req, res) => {
     res.render('login');
-  });
+  },
+);
 
-app.post('/login',
+app.post(
+  '/login',
   passport.authenticate('local', { failureRedirect: '/login' }),
   (_req, res) => {
     res.redirect('/');
-  });
+  },
+);
 
 app.use('/users', usersRouter);
 
