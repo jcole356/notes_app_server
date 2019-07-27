@@ -8,6 +8,7 @@ const passport = require('passport');
 const { Strategy } = require('passport-local');
 const session = require('express-session');
 
+const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
@@ -94,23 +95,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter);
-
-// TODO: auth router
-app.get(
-  '/login',
-  (_req, res) => {
-    res.render('login');
-  },
-);
-
-app.post(
-  '/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  (_req, res) => {
-    res.redirect('/');
-  },
-);
-
+app.use('/login', authRouter);
 app.use('/users', usersRouter);
 
 module.exports = app;
