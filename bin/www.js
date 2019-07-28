@@ -8,8 +8,6 @@ import models, { sequelize } from '../models';
 
 const http = require('http');
 const debug = require('debug')('server:server');
-// const models = require('../models');
-// const { sequelize } = require('../models');
 const app = require('../app');
 
 /**
@@ -97,15 +95,28 @@ const createUsers = async () => {
   await models.User.create(
     {
       email: 'test@test.com',
-      password: 'password',
+      passwordDigest: 'password',
       username: 'testy',
     },
   );
   await models.User.create(
     {
       email: 'test2@test.com',
-      password: 'password',
+      passwordDigest: 'password',
       username: 'testy2',
+    },
+  );
+};
+
+// Creates a note
+// TODO: should not assume this is id 1
+const createNote = async () => {
+  await models.Note.create(
+    {
+      body: 'watch Stranger Things',
+      color: 'red',
+      title: 'Monday',
+      userId: 1,
     },
   );
 };
@@ -114,6 +125,7 @@ const createUsers = async () => {
 sequelize.sync({ force: eraseDatabaseOnSync }).then(() => {
   if (eraseDatabaseOnSync) {
     createUsers();
+    createNote();
   }
   server.listen(port);
   server.on('error', onError);

@@ -10,6 +10,7 @@ const sequelize = new Sequelize(
 );
 
 const models = {
+  Note: sequelize.import('./note'),
   User: sequelize.import('./user'),
 };
 
