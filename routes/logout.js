@@ -6,8 +6,10 @@ const router = express.Router();
 router.post(
   '/',
   (req, res) => {
-    req.logout();
-    res.redirect('/');
+    req.session.destroy(() => {
+      console.log('logging out');
+      res.redirect('/');
+    });
   },
 );
 
