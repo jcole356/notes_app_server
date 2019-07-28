@@ -39,7 +39,7 @@ passport.use(new Strategy(
         console.log('no user');
         return cb(null, false);
       }
-      if (user[0].dataValues.passwordDigest !== password) {
+      if (user[0].getDataValue('password', password)) {
         console.log('password wrong');
         return cb(null, false);
       }
