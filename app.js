@@ -14,8 +14,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 // Demo code https://github.com/passport/express-4.x-local-example/blob/master/server.js
-// TODO: use bcrypt to hash and salt the password
-
 // Configure the local strategy for use by Passport.
 //
 // The local strategy require a `verify` function which receives the credentials
