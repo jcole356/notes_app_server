@@ -1,10 +1,15 @@
 const express = require('express');
+const { ensureLoggedIn } = require('connect-ensure-login');
 
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', (_req, res) => {
-  res.render('index', { title: 'Express' });
-});
+router.get(
+  '/',
+  ensureLoggedIn('/login'),
+  (_req, res) => {
+    res.render('index', { title: 'Notes App Server' });
+  },
+);
 
 module.exports = router;
