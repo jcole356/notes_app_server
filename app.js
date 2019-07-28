@@ -8,7 +8,8 @@ const passport = require('passport');
 const { Strategy } = require('passport-local');
 const session = require('express-session');
 
-const authRouter = require('./routes/auth');
+const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
@@ -83,6 +84,7 @@ const app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+// App configuration
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -94,8 +96,10 @@ app.use(session({ secret: 'cats suck' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Routers
 app.use('/', indexRouter);
-app.use('/login', authRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 app.use('/users', usersRouter);
 
 module.exports = app;
