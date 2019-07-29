@@ -30,8 +30,7 @@ router.get(
       include: [models.Note],
     });
     user.then((u) => {
-      console.log('user notes', u.notes);
-      res.send(`The user's name is ${u.getDataValue('username')}`);
+      res.render('user', { user: u });
     });
   },
 );

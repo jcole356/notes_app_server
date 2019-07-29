@@ -99,14 +99,28 @@ const createUsersAndNotes = async () => {
       username: 'testy',
     },
   );
-  const note = await models.Note.create(
+  const note1 = await models.Note.create(
     {
       body: 'watch Stranger Things',
       color: 'red',
       title: 'Monday',
     },
   );
-  user1.addNote(note);
+  const note2 = await models.Note.create(
+    {
+      body: 'watch Stranger Things',
+      color: 'red',
+      title: 'Tuesday',
+    },
+  );
+  const note3 = await models.Note.create(
+    {
+      body: 'watch Stranger Things',
+      color: 'red',
+      title: 'Wednesday',
+    },
+  );
+  user1.addNotes([note1, note2, note3]);
   await models.User.create(
     {
       email: 'test2@test.com',
