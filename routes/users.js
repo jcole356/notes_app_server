@@ -5,16 +5,33 @@ const { ensureLoggedIn } = require('connect-ensure-login');
 
 const router = express.Router();
 
-/* GET users listing. */
+/* GET users listings */
 router.get(
   '/',
   ensureLoggedIn('/login'),
   (_req, res) => {
     const users = models.User.findAll();
     users.then((userList) => {
-      console.log('userList', userList);
-      const userListString = userList.map(user => user.dataValues.username).join(', ');
+      const userListString = userList.map(user => user.getDataValue('username')).join(', ');
       res.send(`The users name's are ${userListString}`);
+    });
+  },
+);
+
+/* GET user listing by id */
+router.get(
+  '/:user_id',
+  ensureLoggedIn('/login'),
+  (req, res) => {
+    const user = models.User.findOne({
+      where: {
+        id: req.params.user_id,
+      },
+      include: [models.Note],
+    });
+    user.then((u) => {
+      console.log('user notes', u.notes);
+      res.send(`The user's name is ${u.getDataValue('username')}`);
     });
   },
 );

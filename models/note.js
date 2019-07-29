@@ -9,19 +9,11 @@ const note = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
     },
-    userId: {
-      type: DataTypes.INTEGER,
-    },
   });
 
-  // How is this syntax?
+  // TODO: set appropriate restrictions
   Note.associate = (models) => {
-    models.Note.belongsTo(models.User, {
-      onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-      },
-    });
+    models.Note.belongsTo(models.User);
   };
 
   return Note;

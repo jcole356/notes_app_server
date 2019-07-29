@@ -90,15 +90,23 @@ function onListening() {
  */
 const eraseDatabaseOnSync = true;
 
-// Creates 2 users
-const createUsers = async () => {
-  await models.User.create(
+// Creates 2 users and 1 note assoiciated with User1
+const createUsersAndNotes = async () => {
+  const user1 = await models.User.create(
     {
       email: 'test@test.com',
       passwordDigest: 'password',
       username: 'testy',
     },
   );
+  const note = await models.Note.create(
+    {
+      body: 'watch Stranger Things',
+      color: 'red',
+      title: 'Monday',
+    },
+  );
+  user1.addNote(note);
   await models.User.create(
     {
       email: 'test2@test.com',
@@ -108,24 +116,10 @@ const createUsers = async () => {
   );
 };
 
-// Creates a note
-// TODO: should not assume this is id 1
-const createNote = async () => {
-  await models.Note.create(
-    {
-      body: 'watch Stranger Things',
-      color: 'red',
-      title: 'Monday',
-      userId: 1,
-    },
-  );
-};
-
 // TODO: still erasing database on sync
 sequelize.sync({ force: eraseDatabaseOnSync }).then(() => {
   if (eraseDatabaseOnSync) {
-    createUsers();
-    createNote();
+    createUsersAndNotes();
   }
   server.listen(port);
   server.on('error', onError);
