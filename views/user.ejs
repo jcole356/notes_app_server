@@ -1,0 +1,7 @@
+<div>This is the page for <%=user.getDataValue('username')%></div>
+<div>These are all of his notes...</div>
+<div>
+  <%user.notes.forEach(function(note) {%>
+    <div><%=note.getDataValue('title')%></div>
+  <%});%>
+</div>

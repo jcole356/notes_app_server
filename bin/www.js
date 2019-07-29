@@ -8,8 +8,6 @@ import models, { sequelize } from '../models';
 
 const http = require('http');
 const debug = require('debug')('server:server');
-// const models = require('../models');
-// const { sequelize } = require('../models');
 const app = require('../app');
 
 /**
@@ -92,19 +90,41 @@ function onListening() {
  */
 const eraseDatabaseOnSync = true;
 
-// Creates 2 users
-const createUsers = async () => {
-  await models.User.create(
+// Creates 2 users and 1 note assoiciated with User1
+const createUsersAndNotes = async () => {
+  const user1 = await models.User.create(
     {
       email: 'test@test.com',
-      password: 'password',
+      passwordDigest: 'password',
       username: 'testy',
     },
   );
+  const note1 = await models.Note.create(
+    {
+      body: 'watch Stranger Things',
+      color: 'red',
+      title: 'Monday',
+    },
+  );
+  const note2 = await models.Note.create(
+    {
+      body: 'watch Stranger Things',
+      color: 'red',
+      title: 'Tuesday',
+    },
+  );
+  const note3 = await models.Note.create(
+    {
+      body: 'watch Stranger Things',
+      color: 'red',
+      title: 'Wednesday',
+    },
+  );
+  user1.addNotes([note1, note2, note3]);
   await models.User.create(
     {
       email: 'test2@test.com',
-      password: 'password',
+      passwordDigest: 'password',
       username: 'testy2',
     },
   );
@@ -113,7 +133,7 @@ const createUsers = async () => {
 // TODO: still erasing database on sync
 sequelize.sync({ force: eraseDatabaseOnSync }).then(() => {
   if (eraseDatabaseOnSync) {
-    createUsers();
+    createUsersAndNotes();
   }
   server.listen(port);
   server.on('error', onError);

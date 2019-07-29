@@ -12,6 +12,12 @@ const user = (sequelize, DataTypes) => {
     },
     passwordDigest: {
       type: DataTypes.STRING,
+      set(password) {
+        bcrypt.hash(password, 10, (_err, hash) => {
+          this.setDataValue('passwordDigest', hash);
+          this.save();
+        });
+      },
     },
   },
   {
@@ -20,14 +26,11 @@ const user = (sequelize, DataTypes) => {
         bcrypt.compare(password, this.passwordDigest, (_err, res) => res);
       },
     },
-    setterMethods: {
-      password(password) {
-        bcrypt.hash(password, 10, (_err, hash) => {
-          this.setDataValue('passwordDigest', hash);
-        });
-      },
-    },
   });
+
+  User.associate = (models) => {
+    models.User.hasMany(models.Note);
+  };
 
   return User;
 };

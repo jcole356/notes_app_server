@@ -10,8 +10,13 @@ const sequelize = new Sequelize(
 );
 
 const models = {
+  Note: sequelize.import('./note'),
   User: sequelize.import('./user'),
 };
+
+Object.keys(models).forEach((model) => {
+  models[model].associate(models);
+});
 
 export { sequelize };
 
