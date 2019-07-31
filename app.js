@@ -1,6 +1,7 @@
 import models from './models';
 
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -12,6 +13,8 @@ const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+
+const apiUsersRouter = require('./routes/api/users');
 
 // Demo code https://github.com/passport/express-4.x-local-example/blob/master/server.js
 // Configure the local strategy for use by Passport.
@@ -90,14 +93,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'cats suck' }));
 
+// TODO: configure cors per api
+// Enable cors requests
+app.use(cors());
+
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routers
+// Routes
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/users', usersRouter);
+
+// Api Routes
+app.use('/api/users', apiUsersRouter);
 
 module.exports = app;
