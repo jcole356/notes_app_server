@@ -14,8 +14,10 @@ const logoutRouter = require('./routes/logout');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
+const apiLoginRouter = require('./routes/api/login');
 const apiUsersRouter = require('./routes/api/users');
 
+// TODO: should switch to JWT
 // Demo code https://github.com/passport/express-4.x-local-example/blob/master/server.js
 // Configure the local strategy for use by Passport.
 //
@@ -108,6 +110,7 @@ app.use('/logout', logoutRouter);
 app.use('/users', usersRouter);
 
 // Api Routes
+app.use('/api/login', apiLoginRouter);
 app.use('/api/users', apiUsersRouter);
 
 module.exports = app;
