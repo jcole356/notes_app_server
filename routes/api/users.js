@@ -19,7 +19,7 @@ router.get(
     user.then((u) => {
       res.format({
         'application/json': () => {
-          res.send(u.notes);
+          res.send({ notes: u.notes });
         },
       });
     });
