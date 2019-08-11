@@ -1,23 +1,55 @@
 import models from './models';
 
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
+// TODO: clean up imports once api's are done
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const express = require('express');
+const session = require('express-session');
 const logger = require('morgan');
 const passport = require('passport');
+const { ExtractJwt } = require('passport-jwt');
+const { Strategy: JWTStrategy } = require('passport-jwt');
 const { Strategy } = require('passport-local');
-const session = require('express-session');
+const path = require('path');
 
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
+
 const apiLoginRouter = require('./routes/api/login');
 const apiUsersRouter = require('./routes/api/users');
 
-// TODO: should switch to JWT
+// Passport PWT Strategy
+// http://www.passportjs.org/packages/passport-jwt/
+const opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+// TODO: create a secret key env variable
+opts.secretOrKey = 'shhhhh';
+// CORS?
+// opts.issuer = 'accounts.examplesoft.com';
+// opts.audience = 'yoursite.net';
+passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
+  const { User } = models;
+  const users = User.findOne({
+    where: {
+      id: jwtPayload.id,
+    },
+  });
+  users.then((user) => {
+    if (!user) {
+      console.log('user not found (auth)');
+      return cb(null, false);
+    }
+    console.log('successfully authenticated');
+    return cb(null, user);
+  })
+    .catch((err) => {
+      console.log('error', err);
+    });
+}));
+
 // Demo code https://github.com/passport/express-4.x-local-example/blob/master/server.js
 // Configure the local strategy for use by Passport.
 //
@@ -34,10 +66,6 @@ passport.use(new Strategy(
       },
     });
     users.then((user) => {
-      // TODO: error handling
-      // if (err) {
-      //   return cb(err);
-      // }
       if (!user || user.length < 1) {
         console.log('no user');
         return cb(null, false);
@@ -48,7 +76,10 @@ passport.use(new Strategy(
       }
       console.log('successfully authenticated');
       return cb(null, user[0]);
-    });
+    })
+      .catch((err) => {
+        console.log('error', err);
+      });
   },
 ));
 
@@ -59,7 +90,6 @@ passport.use(new Strategy(
 // typical implementation of this is as simple as supplying the user ID when
 // serializing, and querying the user record by ID from the database when
 // deserializing.
-
 passport.serializeUser((user, cb) => {
   console.log('serializeUser');
   cb(null, user.id);
@@ -71,12 +101,13 @@ passport.deserializeUser((id, cb) => {
   const users = models.User.findAll({ where: { id } });
 
   users.then((user) => {
-    // if (err) {
-    //   return cb(err);
-    // }
     cb(null, user[0]);
     return null;
-  });
+  })
+    .catch((err) => {
+      console.log('error', err);
+      cb(null, false);
+    });
 });
 
 const app = express();

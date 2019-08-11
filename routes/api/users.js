@@ -1,17 +1,15 @@
 import models from '../../models';
 
 const express = require('express');
+const passport = require('passport');
 
 const router = express.Router();
 
 /* GET user's notes by id */
 router.get(
   '/:user_id/notes',
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    if (!req.isAuthenticated()) {
-      res.status(401).send('User is not logged in');
-      return;
-    }
     const user = models.User.findOne({
       where: {
         id: req.params.user_id,
