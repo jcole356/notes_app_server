@@ -10,7 +10,11 @@ router.get(
   '/:userId/notes',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { params: { userId } } = req;
+    const { params: { userId: userIdParam }, user: reqUser } = req;
+    let userId;
+    if (userIdParam === 'current') {
+      userId = reqUser.getDataValue('id');
+    }
     const user = models.User.findOne({
       where: {
         id: userId,
