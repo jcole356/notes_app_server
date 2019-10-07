@@ -103,21 +103,21 @@ const createUsersAndNotes = async () => {
     {
       body: 'watch Stranger Things',
       color: 'red',
-      title: 'Monday',
+      title: 'Saturday',
     },
   );
   const note2 = await models.Note.create(
     {
-      body: 'watch Stranger Things',
-      color: 'red',
-      title: 'Tuesday',
+      body: 'watch the Pats',
+      color: 'blue',
+      title: 'Sunday',
     },
   );
   const note3 = await models.Note.create(
     {
-      body: 'watch Stranger Things',
-      color: 'red',
-      title: 'Wednesday',
+      body: 'do some work stuff',
+      color: 'yellow',
+      title: 'Monday',
     },
   );
   user1.addNotes([note1, note2, note3]);

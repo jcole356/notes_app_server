@@ -20,12 +20,12 @@ router.get(
 
 /* GET user listing by id */
 router.get(
-  '/:user_id',
+  '/:userId',
   ensureLoggedIn('/login'),
   (req, res) => {
     const user = models.User.findOne({
       where: {
-        id: req.params.user_id,
+        id: req.params.userId,
       },
       include: [models.Note],
     });

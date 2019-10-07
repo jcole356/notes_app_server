@@ -7,12 +7,23 @@ const router = express.Router();
 
 /* GET user's notes by id */
 router.get(
-  '/:user_id/notes',
+  '/:userId/notes',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    const { params: { userId: userIdParam }, user: reqUser } = req;
+    const userId = reqUser.getDataValue('id');
+    if (userIdParam !== 'current' && userId !== parseInt(userIdParam, 10)) {
+      res.format({
+        'application/json': () => {
+          res.send('Not authorized');
+        },
+      });
+
+      return;
+    }
     const user = models.User.findOne({
       where: {
-        id: req.params.user_id,
+        id: userId,
       },
       include: [models.Note],
     });

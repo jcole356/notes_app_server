@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 // TODO: create a secret key env variable
-const createToken = id => jwt.sign({ id }, 'shhhhh');
+const createToken = (id) => jwt.sign({ id }, 'shhhhh');
 
 const router = express.Router();
 

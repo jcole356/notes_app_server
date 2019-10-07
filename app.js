@@ -21,7 +21,7 @@ const usersRouter = require('./routes/users');
 const apiLoginRouter = require('./routes/api/login');
 const apiUsersRouter = require('./routes/api/users');
 
-// Passport PWT Strategy
+// Passport JWT Strategy
 // http://www.passportjs.org/packages/passport-jwt/
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -57,7 +57,7 @@ passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
 // (`username` and `password`) submitted by the user.  The function must verify
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
-passport.use(new Strategy(
+passport.use(new Strategy({ session: false },
   (username, password, cb) => {
     const { User } = models;
     const users = User.findAll({
@@ -80,35 +80,7 @@ passport.use(new Strategy(
       .catch((err) => {
         console.log('error', err);
       });
-  },
-));
-
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  The
-// typical implementation of this is as simple as supplying the user ID when
-// serializing, and querying the user record by ID from the database when
-// deserializing.
-passport.serializeUser((user, cb) => {
-  console.log('serializeUser');
-  cb(null, user.id);
-});
-
-// TODO: error handling
-passport.deserializeUser((id, cb) => {
-  console.log('deserializeUser', id);
-  const users = models.User.findAll({ where: { id } });
-
-  users.then((user) => {
-    cb(null, user[0]);
-    return null;
-  })
-    .catch((err) => {
-      console.log('error', err);
-      cb(null, false);
-    });
-});
+  }));
 
 const app = express();
 
@@ -134,6 +106,7 @@ app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// TODO: remove the routes that aren't used by client
 // Routes
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
