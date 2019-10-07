@@ -1,6 +1,7 @@
 import models from './models';
 
 // TODO: clean up imports once api's are done
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const express = require('express');
@@ -97,6 +98,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'cats suck' }));
+app.use(bodyParser.json());
 
 // TODO: configure cors per api
 // Enable cors requests
