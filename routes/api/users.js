@@ -7,12 +7,13 @@ const router = express.Router();
 
 /* GET user's notes by id */
 router.get(
-  '/:user_id/notes',
+  '/:userId/notes',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    const { params: { userId } } = req;
     const user = models.User.findOne({
       where: {
-        id: req.params.user_id,
+        id: userId,
       },
       include: [models.Note],
     });
