@@ -11,9 +11,15 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { params: { userId: userIdParam }, user: reqUser } = req;
-    let userId;
-    if (userIdParam === 'current') {
-      userId = reqUser.getDataValue('id');
+    const userId = reqUser.getDataValue('id');
+    if (userIdParam !== 'current' && userId !== parseInt(userIdParam, 10)) {
+      res.format({
+        'application/json': () => {
+          res.send('Not authorized');
+        },
+      });
+
+      return;
     }
     const user = models.User.findOne({
       where: {
