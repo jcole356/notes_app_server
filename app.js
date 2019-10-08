@@ -1,6 +1,7 @@
 import models from './models';
 
 // TODO: clean up imports once api's are done
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const express = require('express');
@@ -9,7 +10,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const { ExtractJwt } = require('passport-jwt');
 const { Strategy: JWTStrategy } = require('passport-jwt');
-const { Strategy } = require('passport-local');
+const { Strategy: LocalStrategy } = require('passport-local');
 const path = require('path');
 
 const loginRouter = require('./routes/login');
@@ -57,7 +58,7 @@ passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
 // (`username` and `password`) submitted by the user.  The function must verify
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
-passport.use(new Strategy({ session: false },
+passport.use(new LocalStrategy({ session: false },
   (username, password, cb) => {
     const { User } = models;
     const users = User.findAll({
@@ -97,6 +98,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'cats suck' }));
+app.use(bodyParser.json());
 
 // TODO: configure cors per api
 // Enable cors requests
