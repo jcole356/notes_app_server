@@ -20,6 +20,7 @@ const usersRouter = require('./routes/users');
 
 
 const apiLoginRouter = require('./routes/api/login');
+const apiNotesRouter = require('./routes/api/notes');
 const apiUsersRouter = require('./routes/api/users');
 
 // Passport JWT Strategy
@@ -117,6 +118,7 @@ app.use('/users', usersRouter);
 
 // Api Routes
 app.use('/api/login', apiLoginRouter);
+app.use('/api/notes', apiNotesRouter);
 app.use('/api/users', apiUsersRouter);
 
 module.exports = app;
