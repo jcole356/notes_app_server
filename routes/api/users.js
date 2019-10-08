@@ -53,7 +53,16 @@ router.post(
 
       return;
     }
-    // TODO: need to verify the client sends the data correctly
+    const { body: noteBody, title, color } = body;
+    if (!title || !noteBody || !color) {
+      res.format({
+        'application/json': () => {
+          res.send('Poorly formatted request');
+        },
+      });
+
+      return;
+    }
     models.Note.create(body).then((n) => {
       reqUser.addNote(n).then(() => {
         const user = models.User.findOne({
