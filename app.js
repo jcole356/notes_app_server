@@ -42,10 +42,12 @@ passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
   users.then((user) => {
     if (!user) {
       console.log('user not found (auth)');
-      return cb(null, false);
+      cb(null, false);
+      return null;
     }
     console.log('successfully authenticated');
-    return cb(null, user);
+    cb(null, user);
+    return null;
   })
     .catch((err) => {
       console.log('error', err);
