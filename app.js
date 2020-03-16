@@ -42,10 +42,12 @@ passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
   users.then((user) => {
     if (!user) {
       console.log('user not found (auth)');
-      return cb(null, false);
+      cb(null, false);
+      return null;
     }
     console.log('successfully authenticated');
-    return cb(null, user);
+    cb(null, user);
+    return null;
   })
     .catch((err) => {
       console.log('error', err);
@@ -98,7 +100,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'cats suck' }));
+app.use(session({
+  secret: 'cats suck',
+  resave: false,
+  saveUninitialized: true,
+}));
 app.use(bodyParser.json());
 
 // TODO: configure cors per api
