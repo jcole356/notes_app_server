@@ -7,7 +7,6 @@ const passport = require('passport');
 const router = express.Router();
 
 /* POST create new user */
-// TODO: use async await
 // TODO: error handling
 router.post(
   '/new',
@@ -25,8 +24,7 @@ router.post(
             email,
             passwordDigest: hash,
             username,
-          }).then((user) => {
-            console.log('user from create', user);
+          }).then(() => {
             authenticateUser(req, res);
           });
         });
