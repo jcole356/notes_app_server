@@ -5,6 +5,11 @@ import passport from 'passport';
 // TODO: create a secret key env variable (dotenv)
 const createToken = (id) => jwt.sign({ id }, 'shhhhh');
 
+// TODO: should salt with username or random hash as well
+export const encryptPassword = (password) => (
+  bcrypt.hash(password, 10)
+);
+
 export const validatePassword = (password, passwordDigest) => (
   bcrypt.compare(password, passwordDigest)
 );

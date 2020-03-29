@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 const user = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
     username: {
@@ -12,12 +10,6 @@ const user = (sequelize, DataTypes) => {
     },
     passwordDigest: {
       type: DataTypes.STRING,
-      set(password) {
-        bcrypt.hash(password, 10, (_err, hash) => {
-          this.setDataValue('passwordDigest', hash);
-          this.save();
-        });
-      },
     },
   });
 

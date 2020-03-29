@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import models, { sequelize } from '../models';
+import { encryptPassword } from '../routes/api/helpers';
 
 /**
  * Module dependencies.
@@ -92,10 +93,11 @@ const eraseDatabaseOnSync = true;
 
 // Creates 2 users and 1 note assoiciated with User1
 const createUsersAndNotes = async () => {
+  const hash1 = await encryptPassword('password');
   const user1 = await models.User.create(
     {
       email: 'test@test.com',
-      passwordDigest: 'password',
+      passwordDigest: hash1,
       username: 'testy',
     },
   );
@@ -121,10 +123,11 @@ const createUsersAndNotes = async () => {
     },
   );
   user1.addNotes([note1, note2, note3]);
+  const hash2 = await encryptPassword('password');
   await models.User.create(
     {
       email: 'test2@test.com',
-      passwordDigest: 'password',
+      passwordDigest: hash2,
       username: 'testy2',
     },
   );

@@ -1,4 +1,4 @@
-import authenticateUser from './helpers';
+import authenticateUser, { encryptPassword } from './helpers';
 import models from '../../models';
 
 const express = require('express');
@@ -14,19 +14,21 @@ router.post(
   (req, res) => {
     const { User } = models;
     const { body: { email, username, password } } = req;
-    const users = User.findAll({
+    User.findAll({
       where: {
         username,
       },
-    });
-    users.then((user) => {
-      if (!user || user.length < 1) {
-        User.create({
-          email,
-          password,
-          username,
-        }).then(() => {
-          authenticateUser(req, res);
+    }).then((users) => {
+      if (!users || users.length < 1) {
+        encryptPassword(password).then((hash) => {
+          User.create({
+            email,
+            passwordDigest: hash,
+            username,
+          }).then((user) => {
+            console.log('user from create', user);
+            authenticateUser(req, res);
+          });
         });
       } else {
         // TODO: this should not return a 200
