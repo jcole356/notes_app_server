@@ -34,13 +34,11 @@ opts.secretOrKey = 'shhhhh';
 // opts.issuer = 'accounts.examplesoft.com';
 // opts.audience = 'yoursite.net';
 passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
-  const { User } = models;
-  const users = User.findOne({
+  models.User.findOne({
     where: {
       id: jwtPayload.id,
     },
-  });
-  users.then((user) => {
+  }).then((user) => {
     if (!user) {
       console.log('user not found (auth)');
       cb(null, false);
@@ -64,8 +62,7 @@ passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new LocalStrategy({ session: false },
   (username, password, cb) => {
-    const { User } = models;
-    User.findAll({
+    models.User.findAll({
       where: {
         username,
       },
