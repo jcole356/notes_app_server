@@ -1,7 +1,7 @@
+import express from 'express';
+
 import authenticateUser, { encryptPassword } from '../helpers';
 import models from '../../../models';
-
-import express from 'express';
 
 const router = express.Router();
 
