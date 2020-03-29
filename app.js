@@ -1,18 +1,16 @@
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
+import session from 'express-session';
+import logger from 'morgan';
+import passport from 'passport';
+import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt';
+import { Strategy as LocalStrategy } from 'passport-local';
+import path from 'path';
+
 import models from './models';
 import { validatePassword } from './routes/api/helpers';
-
-// TODO: clean up imports once api's are done
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const express = require('express');
-const session = require('express-session');
-const logger = require('morgan');
-const passport = require('passport');
-const { ExtractJwt } = require('passport-jwt');
-const { Strategy: JWTStrategy } = require('passport-jwt');
-const { Strategy: LocalStrategy } = require('passport-local');
-const path = require('path');
 
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
