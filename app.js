@@ -13,7 +13,7 @@ import models from './models';
 import { validatePassword } from './routes/api/helpers';
 import apiLoginRouter from './routes/api/login';
 import apiNotesRouter from './routes/api/notes';
-import apiUsersRouter from './routes/api/users';
+import apiUsersRouter from './routes/api/users/users';
 
 // TODO: Old routers to replace with apis
 import loginRouter from './routes/login';

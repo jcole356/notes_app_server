@@ -1,5 +1,5 @@
-import authenticateUser, { encryptPassword } from './helpers';
-import models from '../../models';
+import authenticateUser, { encryptPassword } from '../helpers';
+import models from '../../../models';
 
 const express = require('express');
 const passport = require('passport');

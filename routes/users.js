@@ -12,7 +12,7 @@ router.get(
   (_req, res) => {
     const users = models.User.findAll();
     users.then((userList) => {
-      const userListString = userList.map(user => user.getDataValue('username')).join(', ');
+      const userListString = userList.map((user) => user.getDataValue('username')).join(', ');
       res.send(`The users name's are ${userListString}`);
     });
   },
