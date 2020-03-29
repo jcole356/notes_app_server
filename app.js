@@ -1,28 +1,26 @@
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
+import session from 'express-session';
+import logger from 'morgan';
+import passport from 'passport';
+import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt';
+import { Strategy as LocalStrategy } from 'passport-local';
+import path from 'path';
+
 import models from './models';
 import { validatePassword } from './routes/api/helpers';
+import apiLoginRouter from './routes/api/login';
+import apiNotesRouter from './routes/api/notes';
+import apiUsersRouter from './routes/api/users';
+import apiUsersNotesRouter from './routes/api/users/notes';
 
-// TODO: clean up imports once api's are done
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const express = require('express');
-const session = require('express-session');
-const logger = require('morgan');
-const passport = require('passport');
-const { ExtractJwt } = require('passport-jwt');
-const { Strategy: JWTStrategy } = require('passport-jwt');
-const { Strategy: LocalStrategy } = require('passport-local');
-const path = require('path');
-
-const loginRouter = require('./routes/login');
-const logoutRouter = require('./routes/logout');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-
-
-const apiLoginRouter = require('./routes/api/login');
-const apiNotesRouter = require('./routes/api/notes');
-const apiUsersRouter = require('./routes/api/users');
+// TODO: Old routers to replace with apis
+import loginRouter from './routes/login';
+import logoutRouter from './routes/logout';
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
 
 // Passport JWT Strategy
 // http://www.passportjs.org/packages/passport-jwt/
@@ -123,9 +121,11 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/users', usersRouter);
 
+// TODO: maybe not the best pattern
 // Api Routes
 app.use('/api/login', apiLoginRouter);
 app.use('/api/notes', apiNotesRouter);
 app.use('/api/users', apiUsersRouter);
+app.use('/api/users/:userId/notes', apiUsersNotesRouter);
 
 module.exports = app;

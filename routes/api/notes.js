@@ -1,7 +1,7 @@
-import models from '../../models';
+import express from 'express';
+import passport from 'passport';
 
-const express = require('express');
-const passport = require('passport');
+import models from '../../models';
 
 const router = express.Router();
 
@@ -72,4 +72,4 @@ router.put(
   },
 );
 
-module.exports = router;
+export default router;

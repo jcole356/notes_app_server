@@ -1,7 +1,8 @@
+import { ensureLoggedIn } from 'connect-ensure-login';
+import express from 'express';
+
 import models from '../models';
 
-const express = require('express');
-const { ensureLoggedIn } = require('connect-ensure-login');
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get(
   (_req, res) => {
     const users = models.User.findAll();
     users.then((userList) => {
-      const userListString = userList.map(user => user.getDataValue('username')).join(', ');
+      const userListString = userList.map((user) => user.getDataValue('username')).join(', ');
       res.send(`The users name's are ${userListString}`);
     });
   },
@@ -35,4 +36,4 @@ router.get(
   },
 );
 
-module.exports = router;
+export default router;

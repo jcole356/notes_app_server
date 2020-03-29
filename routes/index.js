@@ -1,5 +1,5 @@
-const express = require('express');
-const { ensureLoggedIn } = require('connect-ensure-login');
+import express from 'express';
+import { ensureLoggedIn } from 'connect-ensure-login';
 
 const router = express.Router();
 
@@ -12,4 +12,4 @@ router.get(
   },
 );
 
-module.exports = router;
+export default router;
