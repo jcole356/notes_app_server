@@ -1,3 +1,4 @@
+import authenticateUser, { encryptPassword } from './helpers';
 import models from '../../models';
 
 const express = require('express');
@@ -5,6 +6,42 @@ const passport = require('passport');
 
 const router = express.Router();
 
+/* POST create new user */
+// TODO: error handling
+router.post(
+  '/new',
+  (req, res) => {
+    const { User } = models;
+    const { body: { email, username, password } } = req;
+    User.findAll({
+      where: {
+        username,
+      },
+    }).then((users) => {
+      if (!users || users.length < 1) {
+        encryptPassword(password).then((hash) => {
+          User.create({
+            email,
+            passwordDigest: hash,
+            username,
+          }).then(() => {
+            authenticateUser(req, res);
+          });
+        });
+      } else {
+        // TODO: this should not return a 200
+        // TODO: should add a util for this
+        res.format({
+          'application/json': () => {
+            res.send({ message: 'User already exists' });
+          },
+        });
+      }
+    });
+  },
+);
+
+// TODO: this belongs in a different directory
 /* GET user's notes by id */
 router.get(
   '/:userId/notes',
@@ -37,6 +74,7 @@ router.get(
   },
 );
 
+// This also doesn't belong here
 /* POST create note for user */
 router.post(
   '/:userId/notes',

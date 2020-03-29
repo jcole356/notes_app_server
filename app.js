@@ -1,4 +1,5 @@
 import models from './models';
+import { validatePassword } from './routes/api/helpers';
 
 // TODO: clean up imports once api's are done
 const bodyParser = require('body-parser');
@@ -27,19 +28,17 @@ const apiUsersRouter = require('./routes/api/users');
 // http://www.passportjs.org/packages/passport-jwt/
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-// TODO: create a secret key env variable
+// TODO: create a secret key env variable (dotenv)
 opts.secretOrKey = 'shhhhh';
 // CORS?
 // opts.issuer = 'accounts.examplesoft.com';
 // opts.audience = 'yoursite.net';
 passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
-  const { User } = models;
-  const users = User.findOne({
+  models.User.findOne({
     where: {
       id: jwtPayload.id,
     },
-  });
-  users.then((user) => {
+  }).then((user) => {
     if (!user) {
       console.log('user not found (auth)');
       cb(null, false);
@@ -63,23 +62,25 @@ passport.use(new JWTStrategy(opts, (jwtPayload, cb) => {
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new LocalStrategy({ session: false },
   (username, password, cb) => {
-    const { User } = models;
-    const users = User.findAll({
+    models.User.findAll({
       where: {
         username,
       },
-    });
-    users.then((user) => {
-      if (!user || user.length < 1) {
+    }).then((users) => {
+      if (!users || users.length < 1) {
         console.log('no user');
         return cb(null, false);
       }
-      if (user[0].getDataValue('password', password)) {
+      const user = users[0];
+      const passwordDigest = user.getDataValue('passwordDigest');
+      return validatePassword(password, passwordDigest).then((same) => {
+        if (same) {
+          console.log('successfully authenticated');
+          return cb(null, user);
+        }
         console.log('password wrong');
         return cb(null, false);
-      }
-      console.log('successfully authenticated');
-      return cb(null, user[0]);
+      });
     })
       .catch((err) => {
         console.log('error', err);
