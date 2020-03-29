@@ -11,16 +11,15 @@ import path from 'path';
 
 import models from './models';
 import { validatePassword } from './routes/api/helpers';
+import apiLoginRouter from './routes/api/login';
+import apiNotesRouter from './routes/api/notes';
+import apiUsersRouter from './routes/api/users';
 
-const loginRouter = require('./routes/login');
-const logoutRouter = require('./routes/logout');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-
-
-const apiLoginRouter = require('./routes/api/login');
-const apiNotesRouter = require('./routes/api/notes');
-const apiUsersRouter = require('./routes/api/users');
+// TODO: Old routers to replace with apis
+import loginRouter from './routes/login';
+import logoutRouter from './routes/logout';
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
 
 // Passport JWT Strategy
 // http://www.passportjs.org/packages/passport-jwt/
