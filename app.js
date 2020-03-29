@@ -13,7 +13,7 @@ import models from './models';
 import { validatePassword } from './routes/api/helpers';
 import apiLoginRouter from './routes/api/login';
 import apiNotesRouter from './routes/api/notes';
-import apiUsersRouter from './routes/api/users/users';
+import apiUsersRouter from './routes/api/users';
 
 // TODO: Old routers to replace with apis
 import loginRouter from './routes/login';
@@ -120,6 +120,7 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/users', usersRouter);
 
+// TODO: maybe not the best pattern
 // Api Routes
 app.use('/api/login', apiLoginRouter);
 app.use('/api/notes', apiNotesRouter);

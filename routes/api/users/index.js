@@ -41,7 +41,6 @@ router.post(
   },
 );
 
-// TODO: this belongs in a different directory
 /* GET user's notes by id */
 router.get(
   '/:userId/notes',
@@ -74,7 +73,6 @@ router.get(
   },
 );
 
-// This also doesn't belong here
 /* POST create note for user */
 router.post(
   '/:userId/notes',
