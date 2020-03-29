@@ -2,12 +2,11 @@ import authenticateUser, { encryptPassword } from '../helpers';
 import models from '../../../models';
 
 const express = require('express');
-const passport = require('passport');
 
 const router = express.Router();
 
-/* POST create new user */
 // TODO: error handling
+/* POST create new user */
 router.post(
   '/new',
   (req, res) => {
@@ -37,52 +36,6 @@ router.post(
           },
         });
       }
-    });
-  },
-);
-
-/* POST create note for user */
-router.post(
-  '/:userId/notes',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    const { body, params: { userId: userIdParam }, user: reqUser } = req;
-    const userId = reqUser.getDataValue('id');
-    if (userIdParam !== 'current' && userId !== parseInt(userIdParam, 10)) {
-      res.format({
-        'application/json': () => {
-          res.send('Not authorized');
-        },
-      });
-
-      return;
-    }
-    const { body: noteBody, title, color } = body;
-    if (!title || !noteBody || !color) {
-      res.format({
-        'application/json': () => {
-          res.send('Poorly formatted request');
-        },
-      });
-
-      return;
-    }
-    models.Note.create(body).then((n) => {
-      reqUser.addNote(n).then(() => {
-        const user = models.User.findOne({
-          where: {
-            id: userId,
-          },
-          include: [models.Note],
-        });
-        user.then((u) => {
-          res.format({
-            'application/json': () => {
-              res.send({ notes: u.notes });
-            },
-          });
-        });
-      });
     });
   },
 );
