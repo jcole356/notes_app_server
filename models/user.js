@@ -19,13 +19,6 @@ const user = (sequelize, DataTypes) => {
         });
       },
     },
-  },
-  {
-    getterMethods: {
-      password(password) {
-        bcrypt.compare(password, this.passwordDigest, (_err, res) => res);
-      },
-    },
   });
 
   User.associate = (models) => {
