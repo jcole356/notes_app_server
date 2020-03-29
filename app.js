@@ -14,6 +14,7 @@ import { validatePassword } from './routes/api/helpers';
 import apiLoginRouter from './routes/api/login';
 import apiNotesRouter from './routes/api/notes';
 import apiUsersRouter from './routes/api/users';
+import apiUsersNotesRouter from './routes/api/users/notes';
 
 // TODO: Old routers to replace with apis
 import loginRouter from './routes/login';
@@ -125,5 +126,6 @@ app.use('/users', usersRouter);
 app.use('/api/login', apiLoginRouter);
 app.use('/api/notes', apiNotesRouter);
 app.use('/api/users', apiUsersRouter);
+app.use('/api/users/:userId/notes', apiUsersNotesRouter);
 
 module.exports = app;
