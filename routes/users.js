@@ -1,6 +1,6 @@
 import models from '../models';
 
-const express = require('express');
+import express from 'express';
 const { ensureLoggedIn } = require('connect-ensure-login');
 
 const router = express.Router();
