@@ -1,7 +1,7 @@
-import models from '../../models';
-
 import express from 'express';
-const passport = require('passport');
+import passport from 'passport';
+
+import models from '../../models';
 
 const router = express.Router();
 

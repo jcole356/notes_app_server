@@ -1,5 +1,5 @@
 import express from 'express';
-const passport = require('passport');
+import passport from 'passport';
 
 const router = express.Router();
 

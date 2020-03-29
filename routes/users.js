@@ -1,7 +1,8 @@
+import { ensureLoggedIn } from 'connect-ensure-login';
+import express from 'express';
+
 import models from '../models';
 
-import express from 'express';
-const { ensureLoggedIn } = require('connect-ensure-login');
 
 const router = express.Router();
 
