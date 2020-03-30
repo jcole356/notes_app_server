@@ -4,13 +4,10 @@ import passport from 'passport';
 
 const createToken = (id) => jwt.sign({ id }, 'shhhhh');
 
-export const encryptPassword = (password) => (
-  bcrypt.hash(password, 10)
-);
+export const encryptPassword = (password) => bcrypt.hash(password, 10);
 
-export const validatePassword = (password, passwordDigest) => (
-  bcrypt.compare(password, passwordDigest)
-);
+export const validatePassword = (password, passwordDigest) =>
+  bcrypt.compare(password, passwordDigest);
 
 export default (req, res) => {
   passport.authenticate('local', { session: false }, (_err, user) => {

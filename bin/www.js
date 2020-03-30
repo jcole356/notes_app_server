@@ -57,9 +57,7 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? `Pipe ${port}`
-    : `Port ${port}`;
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -82,9 +80,7 @@ function onError(error) {
 
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr.port}`;
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
 }
 
@@ -97,43 +93,33 @@ const eraseDatabaseOnSync = true;
 // Creates 2 users and 1 note assoiciated with User1
 const createUsersAndNotes = async () => {
   const hash1 = await encryptPassword('password');
-  const user1 = await models.User.create(
-    {
-      email: 'test@test.com',
-      passwordDigest: hash1,
-      username: 'testy',
-    },
-  );
-  const note1 = await models.Note.create(
-    {
-      body: 'watch Stranger Things',
-      color: 'red',
-      title: 'Saturday',
-    },
-  );
-  const note2 = await models.Note.create(
-    {
-      body: 'watch the Pats',
-      color: 'blue',
-      title: 'Sunday',
-    },
-  );
-  const note3 = await models.Note.create(
-    {
-      body: 'do some work stuff',
-      color: 'yellow',
-      title: 'Monday',
-    },
-  );
+  const user1 = await models.User.create({
+    email: 'test@test.com',
+    passwordDigest: hash1,
+    username: 'testy',
+  });
+  const note1 = await models.Note.create({
+    body: 'watch Stranger Things',
+    color: 'red',
+    title: 'Saturday',
+  });
+  const note2 = await models.Note.create({
+    body: 'watch the Pats',
+    color: 'blue',
+    title: 'Sunday',
+  });
+  const note3 = await models.Note.create({
+    body: 'do some work stuff',
+    color: 'yellow',
+    title: 'Monday',
+  });
   user1.addNotes([note1, note2, note3]);
   const hash2 = await encryptPassword('password');
-  await models.User.create(
-    {
-      email: 'test2@test.com',
-      passwordDigest: hash2,
-      username: 'testy2',
-    },
-  );
+  await models.User.create({
+    email: 'test2@test.com',
+    passwordDigest: hash2,
+    username: 'testy2',
+  });
 };
 
 // TODO: still erasing database on sync
