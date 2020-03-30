@@ -1,15 +1,14 @@
 import express from 'express';
+import authenticateUser from '../helpers';
 
 const router = express.Router();
 
-// Logout
+/* POST log in user */
+// TODO: error handling
 router.post(
   '/',
   (req, res) => {
-    req.session.destroy(() => {
-      console.log('logging out');
-      res.redirect('/');
-    });
+    authenticateUser(req, res);
   },
 );
 

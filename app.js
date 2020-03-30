@@ -11,16 +11,10 @@ import path from 'path';
 
 import models from './models';
 import { validatePassword } from './routes/api/helpers';
-import apiLoginRouter from './routes/api/login';
+import apiLoginRouter from './routes/api/authentication';
 import apiNotesRouter from './routes/api/notes';
 import apiUsersRouter from './routes/api/users';
 import apiUsersNotesRouter from './routes/api/users/notes';
-
-// TODO: Old routers to replace with apis
-import loginRouter from './routes/login';
-import logoutRouter from './routes/logout';
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
 
 // Passport JWT Strategy
 // http://www.passportjs.org/packages/passport-jwt/
@@ -87,24 +81,20 @@ passport.use(new LocalStrategy({ session: false },
 
 const app = express();
 
-// Configure view engine to render EJS templates.
-// TODO: use path.join
-// eslint-disable-next-line
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
 // App configuration
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+
+// TODO: remove?
+app.use(cookieParser());
 app.use(session({
   secret: 'cats suck',
   resave: false,
   saveUninitialized: true,
 }));
-app.use(bodyParser.json());
 
 // TODO: configure cors per api
 // Enable cors requests
@@ -114,13 +104,6 @@ app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// TODO: remove the routes that aren't used by client
-// Routes
-app.use('/', indexRouter);
-app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
-app.use('/users', usersRouter);
-
 // TODO: maybe not the best pattern
 // Api Routes
 app.use('/api/login', apiLoginRouter);
@@ -128,4 +111,4 @@ app.use('/api/notes', apiNotesRouter);
 app.use('/api/users', apiUsersRouter);
 app.use('/api/users/:userId/notes', apiUsersNotesRouter);
 
-module.exports = app;
+export default app;
