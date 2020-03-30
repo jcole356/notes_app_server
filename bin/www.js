@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import app from '../app';
+
 import models, { sequelize } from '../models';
 import { encryptPassword } from '../routes/api/helpers';
 
@@ -9,7 +11,6 @@ import { encryptPassword } from '../routes/api/helpers';
 
 const http = require('http');
 const debug = require('debug')('server:server');
-const app = require('../app');
 
 /**
  * Normalize a port into a number, string, or false.

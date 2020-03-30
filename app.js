@@ -111,4 +111,4 @@ app.use('/api/notes', apiNotesRouter);
 app.use('/api/users', apiUsersRouter);
 app.use('/api/users/:userId/notes', apiUsersNotesRouter);
 
-module.exports = app;
+export default app;
