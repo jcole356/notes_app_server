@@ -1,16 +1,18 @@
 #!/usr/bin/env node
 
-import app from '../app';
-
-import models, { sequelize } from '../models';
-import { encryptPassword } from '../routes/api/helpers';
-
 /**
  * Module dependencies.
  */
 
-const http = require('http');
-const debug = require('debug')('server:server');
+import http from 'http';
+import Debug from 'debug';
+
+import app from '../app';
+import models, { sequelize } from '../models';
+import { encryptPassword } from '../routes/api/helpers';
+
+// TODO: not sure this is right
+const debug = Debug('server:server');
 
 /**
  * Normalize a port into a number, string, or false.
