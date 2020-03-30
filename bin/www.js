@@ -3,15 +3,14 @@
 /**
  * Module dependencies.
  */
-
+import Debug from 'debug';
 import http from 'http';
 
 import app from '../app';
 import models, { sequelize } from '../models';
 import { encryptPassword } from '../routes/api/helpers';
 
-// TODO: Add environment variable for name
-const debug = require('debug')('http');
+const debug = Debug('http');
 
 debug.enabled = true;
 
