@@ -85,15 +85,16 @@ const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// TODO: not sure I need this
+app.use(bodyParser.json());
+
+// TODO: remove?
+app.use(cookieParser());
 app.use(session({
   secret: 'cats suck',
   resave: false,
   saveUninitialized: true,
 }));
-app.use(bodyParser.json());
 
 // TODO: configure cors per api
 // Enable cors requests
