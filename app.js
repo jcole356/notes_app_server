@@ -1,8 +1,6 @@
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import session from 'express-session';
 import logger from 'morgan';
 import passport from 'passport';
 import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt';
@@ -21,7 +19,7 @@ import apiUsersNotesRouter from './routes/api/users/notes';
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 // TODO: create a secret key env variable (dotenv)
-opts.secretOrKey = 'shhhhh';
+opts.secretOrKey = process.env.JWT_SECRET;
 // CORS?
 // opts.issuer = 'accounts.examplesoft.com';
 // opts.audience = 'yoursite.net';
@@ -92,16 +90,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-
-// TODO: remove?
-app.use(cookieParser());
-app.use(
-  session({
-    secret: 'cats suck',
-    resave: false,
-    saveUninitialized: true,
-  }),
-);
 
 // TODO: configure cors per api
 // Enable cors requests

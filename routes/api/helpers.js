@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 
-const createToken = (id) => jwt.sign({ id }, 'shhhhh');
+const createToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET);
 
 export const encryptPassword = (password) => bcrypt.hash(password, 10);
 

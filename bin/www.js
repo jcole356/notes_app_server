@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 import Debug from 'debug';
+import dotenv from 'dotenv/config'; // eslint-disable-line no-unused-vars
 import http from 'http';
 
 import app from '../app';
