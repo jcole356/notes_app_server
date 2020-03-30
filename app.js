@@ -11,7 +11,7 @@ import path from 'path';
 
 import models from './models';
 import { validatePassword } from './routes/api/helpers';
-import apiLoginRouter from './routes/api/authentication/login';
+import apiLoginRouter from './routes/api/authentication';
 import apiNotesRouter from './routes/api/notes';
 import apiUsersRouter from './routes/api/users';
 import apiUsersNotesRouter from './routes/api/users/notes';
