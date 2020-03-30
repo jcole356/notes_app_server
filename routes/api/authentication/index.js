@@ -5,11 +5,8 @@ const router = express.Router();
 
 /* POST log in user */
 // TODO: error handling
-router.post(
-  '/',
-  (req, res) => {
-    authenticateUser(req, res);
-  },
-);
+router.post('/', (req, res) => {
+  authenticateUser(req, res);
+});
 
 export default router;

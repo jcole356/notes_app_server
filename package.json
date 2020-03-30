@@ -2,8 +2,8 @@
   "name": "notes_app_server",
   "version": "1.0.0",
   "engines": {
-    "node": "10.8.x",
-    "yarn": "1.x.x"
+    "node": "10.19.x",
+    "yarn": "1.22.x"
   },
   "description": "Node.js backend for notes_app React client",
   "main": "index.js",
@@ -23,8 +23,11 @@
     "babel-plugin-module-alias": "^1.6.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.18.2",
-    "nodemon": "^1.18.10"
+    "eslint-plugin-prettier": "^3.1.2",
+    "nodemon": "^1.18.10",
+    "prettier": "^2.0.2"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",

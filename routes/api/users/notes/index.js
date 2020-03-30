@@ -11,7 +11,10 @@ router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { params: { userId: userIdParam }, user: reqUser } = req;
+    const {
+      params: { userId: userIdParam },
+      user: reqUser,
+    } = req;
     const userId = reqUser.getDataValue('id');
     if (userIdParam !== 'current' && userId !== parseInt(userIdParam, 10)) {
       res.format({
@@ -41,7 +44,11 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { body, params: { userId: userIdParam }, user: reqUser } = req;
+    const {
+      body,
+      params: { userId: userIdParam },
+      user: reqUser,
+    } = req;
     const userId = reqUser.getDataValue('id');
     if (userIdParam !== 'current' && userId !== parseInt(userIdParam, 10)) {
       res.format({

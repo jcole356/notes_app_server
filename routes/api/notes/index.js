@@ -10,7 +10,10 @@ router.delete(
   '/:noteId',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { params: { noteId }, user: reqUser } = req;
+    const {
+      params: { noteId },
+      user: reqUser,
+    } = req;
     const userId = reqUser.getDataValue('id');
     const note = models.Note.findOne({
       where: {
@@ -43,7 +46,11 @@ router.put(
   '/:noteId',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { body, params: { noteId }, user: reqUser } = req;
+    const {
+      body,
+      params: { noteId },
+      user: reqUser,
+    } = req;
     const userId = reqUser.getDataValue('id');
     const note = models.Note.findOne({
       where: {

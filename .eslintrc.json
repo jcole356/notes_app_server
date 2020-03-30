@@ -8,5 +8,10 @@
     "import/resolver": {
       "babel-module-alias": {}
     }
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": 2,
+    "implicit-arrow-linebreak": [0]
   }
 }
