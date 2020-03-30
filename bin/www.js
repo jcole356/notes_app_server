@@ -8,8 +8,7 @@ import dotenv from 'dotenv/config'; // eslint-disable-line no-unused-vars
 import http from 'http';
 
 import app from '../app';
-import models, { sequelize } from '../models';
-import { encryptPassword } from '../routes/api/helpers';
+import { sequelize } from '../models';
 
 const debug = Debug('http');
 
@@ -89,45 +88,7 @@ function onListening() {
  * Listen on provided port, on all network interfaces.
  * Wait until sequelize has synced before listening
  */
-const eraseDatabaseOnSync = true;
-
-// Creates 2 users and 1 note assoiciated with User1
-const createUsersAndNotes = async () => {
-  const hash1 = await encryptPassword('password');
-  const user1 = await models.User.create({
-    email: 'test@test.com',
-    passwordDigest: hash1,
-    username: 'testy',
-  });
-  const note1 = await models.Note.create({
-    body: 'watch Stranger Things',
-    color: 'red',
-    title: 'Saturday',
-  });
-  const note2 = await models.Note.create({
-    body: 'watch the Pats',
-    color: 'blue',
-    title: 'Sunday',
-  });
-  const note3 = await models.Note.create({
-    body: 'do some work stuff',
-    color: 'yellow',
-    title: 'Monday',
-  });
-  user1.addNotes([note1, note2, note3]);
-  const hash2 = await encryptPassword('password');
-  await models.User.create({
-    email: 'test2@test.com',
-    passwordDigest: hash2,
-    username: 'testy2',
-  });
-};
-
-// TODO: still erasing database on sync
-sequelize.sync({ force: eraseDatabaseOnSync }).then(() => {
-  if (eraseDatabaseOnSync) {
-    createUsersAndNotes();
-  }
+sequelize.sync().then(() => {
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
