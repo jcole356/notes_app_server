@@ -1,1 +1,1 @@
-web: nodemon --exec babel-node ./bin/www
+web: yarn start
