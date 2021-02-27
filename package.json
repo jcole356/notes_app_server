@@ -10,7 +10,7 @@
   "private": true,
   "scripts": {
     "build": "npm run clean && npm run build-babel",
-    "build-babel": "babel -d ./build ./src -s",
+    "build-babel": "./node_modules/.bin/babel -d ./build ./src -s",
     "clean": "rm -rf build && mkdir build",
     "lint": "eslint .",
     "start": "npm run build && node ./build/bin/www",
