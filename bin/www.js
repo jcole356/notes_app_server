@@ -7,8 +7,8 @@ import Debug from 'debug';
 import dotenv from 'dotenv/config'; // eslint-disable-line no-unused-vars
 import http from 'http';
 
-import app from '../app';
-import { sequelize } from '../models';
+import app from '../src/app';
+import { sequelize } from '../src/models';
 
 const debug = Debug('http');
 
