@@ -13,7 +13,7 @@
     "build-babel": "./node_modules/.bin/babel -d ./build ./src -s",
     "clean": "rm -rf build && mkdir build",
     "lint": "eslint .",
-    "start": "npm run build && node ./build/bin/www",
+    "start": "node ./build/bin/www",
     "dev": "nodemon --exec babel-node ./src/bin/www"
   },
   "author": "Joshua Cole",
