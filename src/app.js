@@ -7,7 +7,7 @@ import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import path from 'path';
 
-import models from './models';
+import models from '../models';
 import { validatePassword } from './routes/api/helpers';
 import apiLoginRouter from './routes/api/authentication';
 import apiNotesRouter from './routes/api/notes';

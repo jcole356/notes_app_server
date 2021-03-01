@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 
-import models from '../../../../models';
+import models from '../../../../../models';
 
 const router = express.Router({ mergeParams: true });
 const { Note, User } = models;
@@ -38,7 +38,8 @@ router.get(
   },
 );
 
-// TODO: better reponses
+// TODO: better reponses (fails poorly if the color is wrong or something)
+// TODO: received Notauthorized for successful note
 /* POST create note for user */
 router.post(
   '/',
