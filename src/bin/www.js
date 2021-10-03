@@ -8,9 +8,7 @@ import dotenv from 'dotenv/config'; // eslint-disable-line no-unused-vars
 import http from 'http';
 
 import app from '../app';
-
-// TODO: can use import here
-const db = require('../../models/');
+import db from '../../models';
 
 const debug = Debug('http');
 
@@ -88,7 +86,7 @@ function onListening() {
 
 /*
  * Listen on provided port, on all network interfaces.
- * Wait until sequelize has synced before listening
+ * Wait until sequelize has authenticated before listening
  */
 db.sequelize.authenticate().then(() => {
   server.listen(port);
