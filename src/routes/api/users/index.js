@@ -1,14 +1,18 @@
 import express from 'express';
 
 import authenticateUser, { encryptPassword } from '../helpers';
-import models from '../../../../models';
+import db from '../../../../models';
 
 const router = express.Router();
 
 // TODO: error handling
 /* POST create new user */
 router.post('/new', (req, res) => {
-  const { User } = models;
+  const {
+    sequelize: {
+      models: { User },
+    },
+  } = db;
   const {
     body: { email, username, password },
   } = req;

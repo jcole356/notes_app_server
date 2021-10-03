@@ -1,10 +1,14 @@
 import express from 'express';
 import passport from 'passport';
 
-import models from '../../../../../models';
+import db from '../../../../../models';
 
 const router = express.Router({ mergeParams: true });
-const { Note, User } = models;
+const {
+  sequelize: {
+    models: { Note, User },
+  },
+} = db;
 
 /* GET user's notes by id */
 router.get(
@@ -72,7 +76,7 @@ router.post(
           where: {
             id: userId,
           },
-          include: [models.Note],
+          include: [Note],
         }).then(({ notes }) => {
           res.format({
             'application/json': () => {
