@@ -1,23 +1,23 @@
-const user = (sequelize, DataTypes) => {
-  const User = sequelize.define('user', {
-    username: {
-      type: DataTypes.STRING,
-      unique: true,
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-    },
-    passwordDigest: {
-      type: DataTypes.STRING,
-    },
-  });
+// const user = (sequelize, DataTypes) => {
+//   const User = sequelize.define('user', {
+//     username: {
+//       type: DataTypes.STRING,
+//       unique: true,
+//     },
+//     email: {
+//       type: DataTypes.STRING,
+//       unique: true,
+//     },
+//     passwordDigest: {
+//       type: DataTypes.STRING,
+//     },
+//   });
 
-  User.associate = (models) => {
-    models.User.hasMany(models.Note);
-  };
+//   User.associate = (models) => {
+//     models.User.hasMany(models.Note);
+//   };
 
-  return User;
-};
+//   return User;
+// };
 
-export default user;
+// export default user;
