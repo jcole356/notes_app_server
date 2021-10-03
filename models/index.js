@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+// const { lowerFirst } = require('lodash');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
@@ -15,6 +16,7 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
+// TODO: possible solution here is to make this capitalize the name moving forward
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -31,7 +33,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-
+// TODO: what are these 2 lines?
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

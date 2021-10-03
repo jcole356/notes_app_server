@@ -32,10 +32,10 @@ router.get(
         id: userId,
       },
       include: [Note],
-    }).then(({ notes }) => {
+    }).then(({ Notes }) => {
       res.format({
         'application/json': () => {
-          res.send({ notes });
+          res.send({ notes: Notes });
         },
       });
     });
@@ -77,10 +77,11 @@ router.post(
             id: userId,
           },
           include: [Note],
-        }).then(({ notes }) => {
+        }).then(({ Notes }) => {
           res.format({
             'application/json': () => {
-              res.send({ notes });
+              console.log('RETURNING THE NOTES', Notes);
+              res.send({ notes: Notes });
             },
           });
         });

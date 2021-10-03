@@ -16,7 +16,17 @@ module.exports = {
         type: Sequelize.STRING
       },
       color: {
-        type: Sequelize.ENUM('red', 'green', 'yellow', 'blue')
+        type: Sequelize.ENUM('red', 'green', 'yellow', 'blue'),
+      },
+      userId: {
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: {
+            tableName: 'Users',
+          },
+          key: 'id'
+        },
+        // allowNull: false
       },
       createdAt: {
         allowNull: false,
