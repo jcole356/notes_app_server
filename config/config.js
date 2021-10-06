@@ -1,3 +1,4 @@
+// Environment availables not available from cli
 module.exports = {
   development: {
     username: process.env.DATABASE_USER,
