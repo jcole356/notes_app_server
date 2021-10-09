@@ -1,23 +1,24 @@
-const user = (sequelize, DataTypes) => {
-  const User = sequelize.define('user', {
-    username: {
-      type: DataTypes.STRING,
-      unique: true,
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-    },
-    passwordDigest: {
-      type: DataTypes.STRING,
-    },
-  });
+'use strict';
 
-  User.associate = (models) => {
-    models.User.hasMany(models.Note);
+const {
+  Model
+} = require('sequelize');
+
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    static associate(models) {
+      models.User.hasMany(models.Note, { foreignKey: 'userId' });
+    }
   };
+
+  User.init({
+    username: DataTypes.STRING,
+    passwordDigest: DataTypes.STRING,
+    email: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'User',
+  });
 
   return User;
 };
-
-export default user;

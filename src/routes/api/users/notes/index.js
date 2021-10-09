@@ -28,10 +28,10 @@ router.get(
         id: userId,
       },
       include: [Note],
-    }).then(({ notes }) => {
+    }).then(({ Notes }) => {
       res.format({
         'application/json': () => {
-          res.send({ notes });
+          res.send({ notes: Notes });
         },
       });
     });
@@ -71,11 +71,11 @@ router.post(
           where: {
             id: userId,
           },
-          include: [models.Note],
-        }).then(({ notes }) => {
+          include: [Note],
+        }).then(({ Notes }) => {
           res.format({
             'application/json': () => {
-              res.send({ notes });
+              res.send({ notes: Notes });
             },
           });
         });

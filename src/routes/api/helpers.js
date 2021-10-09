@@ -11,6 +11,7 @@ export const validatePassword = (password, passwordDigest) =>
 
 export default (req, res) => {
   passport.authenticate('local', { session: false }, (_err, user) => {
+    console.log('WE HAVE A USER', user);
     if (!user) {
       res.format({
         'application/json': () => {
