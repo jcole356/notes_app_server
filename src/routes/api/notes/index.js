@@ -22,7 +22,7 @@ router.delete(
       include: [models.User],
     });
     note.then((n) => {
-      if (n.user.id !== userId) {
+      if (n.User.id !== userId) {
         res.format({
           'application/json': () => {
             res.send('Not authorized');
