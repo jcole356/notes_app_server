@@ -11,9 +11,11 @@ module.exports = {
         type: Sequelize.STRING,
       },
       title: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       color: {
+        allowNull: false,
         type: Sequelize.ENUM('red', 'green', 'yellow', 'blue'),
       },
       userId: {
@@ -24,7 +26,6 @@ module.exports = {
           },
           key: 'id',
         },
-        // allowNull: false
       },
       createdAt: {
         allowNull: false,
