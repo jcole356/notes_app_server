@@ -61,7 +61,6 @@ passport.use(
       },
     })
       .then((users) => {
-        console.log('LOOKED UP USER BY USERNAME', users);
         if (!users || users.length < 1) {
           console.log('no user');
           return cb(null, false);
