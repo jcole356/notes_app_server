@@ -1,22 +1,23 @@
-const note = (sequelize, DataTypes) => {
-  const Note = sequelize.define('note', {
-    body: {
-      type: DataTypes.STRING, // TODO: might want more characters
-    },
-    color: {
-      type: DataTypes.ENUM('red', 'green', 'yellow', 'blue'),
-    },
-    title: {
-      type: DataTypes.STRING,
-    },
-  });
+const { Model } = require('sequelize');
 
-  // TODO: set appropriate restrictions
-  Note.associate = (models) => {
-    models.Note.belongsTo(models.User);
-  };
+module.exports = (sequelize, DataTypes) => {
+  class Note extends Model {
+    static associate(models) {
+      models.Note.belongsTo(models.User, { foreignKey: 'userId' });
+    }
+  }
+
+  Note.init(
+    {
+      body: DataTypes.STRING,
+      title: DataTypes.STRING,
+      color: DataTypes.ENUM('red', 'green', 'yellow', 'blue'),
+    },
+    {
+      sequelize,
+      modelName: 'Note',
+    },
+  );
 
   return Note;
 };
-
-export default note;
