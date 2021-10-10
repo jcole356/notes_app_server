@@ -1,4 +1,5 @@
-// Environment availables not available from cli
+require('dotenv').config();
+
 module.exports = {
   development: {
     username: process.env.DATABASE_USER,
