@@ -20,7 +20,6 @@ const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 // TODO: create a secret key env variable (dotenv)
 opts.secretOrKey = process.env.JWT_SECRET;
-// CORS?
 // opts.issuer = 'accounts.examplesoft.com';
 // opts.audience = 'yoursite.net';
 passport.use(
@@ -91,15 +90,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
-// TODO: configure cors per api
-// Enable cors requests
-app.use(cors());
+// Enable cors requests per environment
+const whitelist = process.env.CORS_WHITELIST.split(',');
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
+  // per cors docs: some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());
 
-// TODO: maybe not the best pattern
 // Api Routes
 app.use('/api/login', apiLoginRouter);
 app.use('/api/notes', apiNotesRouter);
